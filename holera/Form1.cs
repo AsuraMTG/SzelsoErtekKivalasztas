@@ -12,6 +12,7 @@ namespace holera
 {
     public partial class Form1 : Form
     {
+
         public void Csere(int[] hol, int p1, int p2)
         {
             int s = hol[p1];
@@ -30,7 +31,7 @@ namespace holera
                     poz = i;
                 }
             }
-            return poz; 
+            return poz;
         }
         public int MaxKiCs(int[] hol, int e, int v)
         {
@@ -48,14 +49,81 @@ namespace holera
         }
 
         int[] t = new int[10];
+        int[] elsoTomb = new int[5];
+        int[] masodikTomb = new int[5];
+        int[] harmadikTomb = new int[10];
+
+
+        //SZIA
+        struct pontok
+        {
+            public int x;
+            public int y;
+            public double tav;
+            public pontok(int a, int b)
+            {
+                x = a;
+                y = b;
+                tav = Math.Sqrt(x * x + y * y);
+            }
+            public static bool operator >(pontok a, pontok b)
+            {
+                if (a.tav > b.tav)
+                {
+                    return true;
+                }
+                return false;
+            }
+            public static bool operator <(pontok a, pontok b)
+            {
+                if (a.tav < b.tav)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        pontok vaza = new pontok(9, 10);
+        pontok haza = new pontok(10, 15);
         public Form1()
         {
             InitializeComponent();
         }
-
+        // constructor legoglalja a helyet castolja es erteket ad neki
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            int k = 5;
+            int pos = 0;
+            bool vane = false;
+            for (int i = 1; i < elsoTomb.Length; i++)
+            {
+                Random rnd = new Random();
+                elsoTomb[i] = elsoTomb[i - 1] + rnd.Next(1, 10);
+                masodikTomb[i] = masodikTomb[i - 1] + rnd.Next(1, 10);
+                harmadikTomb[i] = elsoTomb[i];
+            }
+            for (int i = 0; i < elsoTomb.Length; i++)
+            {
+                for (int j = 0; j < elsoTomb.Length; j++)
+                {
+                    if (elsoTomb[i] == masodikTomb[j])
+                    {
+                        vane = true;
+                        pos = j;
+                    }
+                }
+                if (vane == true)
+                {
+                    harmadikTomb[k] = masodikTomb[pos];
+                    k++;
+                }
+                vane = false;
+            }
+            if (vaza > haza)
+            {
+
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,7 +155,7 @@ namespace holera
             label4.Text = "";
             for (int i = 0; i < t.Length; i++)
             {
-                Csere(t, i, MaxKiNo(t, i, t.Length));   
+                Csere(t, i, MaxKiNo(t, i, t.Length));
             }
 
             for (int i = 0; i < t.Length; i++)
@@ -95,7 +163,9 @@ namespace holera
                 label4.Text += " " + t[i].ToString();
             }
 
-            // 2 tömb unioja
+            // 2 tömb unioja 2 tömb metszete
+
+
         }
     }
 }
